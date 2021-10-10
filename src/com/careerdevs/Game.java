@@ -9,4 +9,8 @@ public class Game {
     private final byte NUM_DICE = 5;
     private final byte NUM_TURNS= 3;
 
+    public Game(int numPlayers) {
+
+    }
+
 }
