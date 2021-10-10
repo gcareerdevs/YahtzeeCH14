@@ -7,19 +7,18 @@ public class CLI {
 
     private static Scanner scanner = new Scanner(System.in);
 
-
     public static String getString(String statement) {
         String input = "";
         try {
             while (true) {
-                System.out.print("Input: ");
+                System.out.print(statement + ":");
                 input = scanner.nextLine();
                 if (input.length() == 0) {
                     System.out.println("Input contains no characters! Please try again");
                 }
-                else if (!input.equalsIgnoreCase(statement)){
-                    System.out.println("Statement does not match given option. Please try again.");
-                }
+//                else if (!input.equalsIgnoreCase(statement)){
+//                    System.out.println("Statement does not match given option. Please try again.");
+//                }
                 else {
                     break;
                 }
@@ -56,7 +55,7 @@ public class CLI {
         char input = 0;
         try {
             while (true) {
-                System.out.print("Input: ");
+                System.out.print(statement + ":");
                 input = scanner.next().charAt(0);
                 break;
             }
@@ -85,7 +84,6 @@ public class CLI {
             } else {
                 break;
             }
-
         }
         return input;
     }
@@ -98,7 +96,7 @@ public class CLI {
 //        readEnter();
 //        getNum(1, 2);
 //        createSeperator("- ", 20);
-        getString("Yes");
+//        getString("Does this thing work?");
     }
 
 }
