@@ -13,4 +13,29 @@ public class Game {
 
     }
 
+    public void createPlayer(int numPlayers) {
+
+    }
+
+    public void playerTurn(int numPlayers) {
+
+    }
+
+    public void createDice() {
+
+    }
+
+    public void startGame() {
+
+    }
+
+    public void endGame() {
+
+    }
+
+    public void checkWinners() {
+
+    }
+
+
 }
