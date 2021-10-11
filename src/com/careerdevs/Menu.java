@@ -13,5 +13,9 @@ public class Menu {
         return rules;
     }
 
+    public static void start(){
+
+    }
+
 
 }
