@@ -31,7 +31,7 @@ public class Menu {
             System.out.print("\nNumber of Players: ");
             int numPlayers = CLI.getNum(2, 10);
         }else if (choice == 2){
-            System.out.println("Okay maybe next time, come back soon");
+            System.out.println("Okay maybe we can play next time, come back soon");
         }
 
         System.out.println("\nOkay so now lets start the game.");
