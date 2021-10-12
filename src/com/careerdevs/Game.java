@@ -32,7 +32,7 @@ public class Game {
                 CLI.createSeperator("-",10);
                 printActiveDice(player.hand.activeDice);
                 printHeldDice(player.hand.heldDice);
-                String answer = CLI.getString("Would you like to hold or activate dice? (Input H to Hold, A to Activate, or R to Roll all Active Dice)");
+                String answer = CLI.getString("What action would you like to Perform? (Input H to Hold a die\nInput A to Activate a die\nInput R to Roll all Active Dice\nInput S to Score the Current Set of Dice)");
                 switch(answer.toUpperCase()){
                     case "H":
                         CLI.createSeperator("-",10);
@@ -50,6 +50,11 @@ public class Game {
                         menuActive = false;
                         CLI.createSeperator("-",10);
                         player.hand.rollDice();
+                        break;
+                    case "S":
+                        menuActive = false;
+                        CLI.createSeperator("-",10);
+                        //TODO After Scorecard is implemented, make sure to add the Implementation here
                         break;
                     default:
                         break;
