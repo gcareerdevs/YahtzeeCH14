@@ -11,7 +11,7 @@ public class CLI {
         String input = "";
         try {
             while (true) {
-                System.out.print(statement + ":");
+                System.out.print(statement + ": ");
                 input = scanner.nextLine();
                 if (input.length() == 0) {
                     System.out.println("Input contains no characters! Please try again");
@@ -35,6 +35,7 @@ public class CLI {
         int input = 0;
         try {
             while (true) {
+                //TODO: add min and max to the Input line
                 System.out.print("Input: ");
                 input = scanner.nextInt();
                 if (input > max || input < min) {
@@ -68,6 +69,22 @@ public class CLI {
         }
         return input;
     }
+
+    public static boolean yesOrNo (String statement) {
+        while (true) {
+            System.out.print("\nInput (y/n): ");
+            String input = scanner.nextLine().toLowerCase().trim();
+
+            if ( input.length() > 0 && input.charAt(0) == 'y') { //input.substring(0,1) == "y"
+                return true;
+            } else if (  input.length() > 0 &&  input.charAt(0) == 'n') {
+                return false;
+            }
+
+            System.out.println("\nPlease enter Yes OR No");
+        }
+    }
+
 
     public static void exit() {
         System.out.println("Exiting program. Come again!");
