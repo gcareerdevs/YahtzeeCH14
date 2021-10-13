@@ -36,16 +36,14 @@ public class CLI {
         while (true) {
             try {
                 System.out.print("Enter a number between " + min + " and " + max + "\nInput: ");
-                input = scanner.nextInt();
+                input = Integer.parseInt(scanner.nextLine());
                 if (input > max || input < min) {
                     System.out.println("Input out of range! Please try again with a number between " + min + " and " + max + ".");
                 } else {
                     break;
                 }
-            } catch (InputMismatchException exception) {
-                System.out.println("Incorrect input! Please try again with a set of numbers.");
             } catch (Exception exception) {
-                System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
+                System.out.println("Error! Please try again.");
             }
         }
         return input;
@@ -58,10 +56,8 @@ public class CLI {
                 System.out.print(statement + ":");
                 input = scanner.next().charAt(0);
                 break;
-            } catch (InputMismatchException exception) {
-                System.out.println("Incorrect input! Please try again.");
             } catch (Exception exception) {
-                System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
+                System.out.println("Error! Please try again");
             }
         }
         return input;
