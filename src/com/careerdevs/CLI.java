@@ -9,8 +9,8 @@ public class CLI {
 
     public static String getString(String statement) /*The method is implemented to put in the statement/question we want to ask the user.*/ {
         String input = "";
-        try {
-            while (true) {
+        while (true) {
+            try {
                 System.out.print(statement + ": ");
                 input = scanner.nextLine().trim();
                 if (input.length() == 0) {
@@ -22,11 +22,11 @@ public class CLI {
                 else {
                     break;
                 }
+            } catch (InputMismatchException exception) {
+                System.out.println("Incorrect input! Please try again");
+            } catch (Exception exception) {
+                System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
             }
-        } catch (InputMismatchException exception) {
-            System.out.println("Incorrect input! Please try again");
-        } catch (Exception exception) {
-            System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
         }
         return input;
     }
