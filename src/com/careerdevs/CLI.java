@@ -32,7 +32,7 @@ public class CLI {
     }
 
     public static int getNum(int min, int max) /*Method to have a player pick a number between given min and max. Most likely used for menus*/ {
-        int input = 0;
+        int input;
         while (true) {
             try {
                 System.out.print("Enter a number between " + min + " and " + max + "\nInput: ");
@@ -44,15 +44,17 @@ public class CLI {
                 }
             } catch (InputMismatchException exception) {
                 System.out.println("Incorrect input! Please try again with a set of numbers.");
+                scanner.nextLine();
             } catch (Exception exception) {
                 System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
+                scanner.nextLine();
             }
         }
         return input;
     }
 
     public static char getChar(char statement) /*Unfinished within scope. Method takes in the message we want to give to the player.*/ {
-        char input = 0;
+        char input;
         while (true) {
             try {
                 System.out.print(statement + ":");
@@ -108,8 +110,8 @@ public class CLI {
     public static void main(String[] args) /*For my own testing of these methods.*/ {
 
         while (true) {
-            readEnter();
-//        getNum(1, 2);
+//          readEnter();
+            getNum(1, 2);
 //        createSeperator("- ", 20);
 //        getString("Does this thing work?");
 
