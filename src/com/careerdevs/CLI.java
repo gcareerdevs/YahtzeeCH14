@@ -44,10 +44,8 @@ public class CLI {
                 }
             } catch (InputMismatchException exception) {
                 System.out.println("Incorrect input! Please try again with a set of numbers.");
-                scanner.nextLine();
             } catch (Exception exception) {
                 System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
-                scanner.nextLine();
             }
         }
         return input;
