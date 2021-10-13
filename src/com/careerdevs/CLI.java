@@ -9,8 +9,8 @@ public class CLI {
 
     public static String getString(String statement) /*The method is implemented to put in the statement/question we want to ask the user.*/ {
         String input = "";
-        try {
-            while (true) {
+        while (true) {
+            try {
                 System.out.print(statement + ": ");
                 input = scanner.nextLine().trim();
                 if (input.length() == 0) {
@@ -22,46 +22,42 @@ public class CLI {
                 else {
                     break;
                 }
+            } catch (InputMismatchException exception) {
+                System.out.println("Incorrect input! Please try again");
+            } catch (Exception exception) {
+                System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
             }
-        } catch (InputMismatchException exception) {
-            System.out.println("Incorrect input! Please try again");
-        } catch (Exception exception) {
-            System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
         }
         return input;
     }
 
     public static int getNum(int min, int max) /*Method to have a player pick a number between given min and max. Most likely used for menus*/ {
-        int input = 0;
+        int input;
         while (true) {
             try {
                 System.out.print("Enter a number between " + min + " and " + max + "\nInput: ");
-                input = scanner.nextInt();
+                input = Integer.parseInt(scanner.nextLine());
                 if (input > max || input < min) {
                     System.out.println("Input out of range! Please try again with a number between " + min + " and " + max + ".");
                 } else {
                     break;
                 }
-            } catch (InputMismatchException exception) {
-                System.out.println("Incorrect input! Please try again with a set of numbers.");
             } catch (Exception exception) {
-                System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
+                System.out.println("Error! Please try again.");
             }
         }
         return input;
     }
 
     public static char getChar(char statement) /*Unfinished within scope. Method takes in the message we want to give to the player.*/ {
-        char input = 0;
+        char input;
         while (true) {
             try {
                 System.out.print(statement + ":");
                 input = scanner.next().charAt(0);
                 break;
-            } catch (InputMismatchException exception) {
-                System.out.println("Incorrect input! Please try again.");
             } catch (Exception exception) {
-                System.out.println("Unknown error. Please try again. If this message appears again please contact the developers about this issue.");
+                System.out.println("Error! Please try again");
             }
         }
         return input;
@@ -108,8 +104,8 @@ public class CLI {
     public static void main(String[] args) /*For my own testing of these methods.*/ {
 
         while (true) {
-            readEnter();
-//        getNum(1, 2);
+//          readEnter();
+            getNum(1, 2);
 //        createSeperator("- ", 20);
 //        getString("Does this thing work?");
 
