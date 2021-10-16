@@ -7,6 +7,6 @@ public class Main {
     // in our final version, this method will simply contain Menu.start();
     // once you want to commit, make sure to first cd to the YahtzeeCH14 directory,
         //then run the command git restore ./src/com/careerdevs/Main.java
-
+        Menu.start();
     }
 }
