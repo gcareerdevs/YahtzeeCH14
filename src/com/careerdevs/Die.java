@@ -1,5 +1,7 @@
 package com.careerdevs;
 
+import java.util.Random;
+
 public class Die {
     private final Random myRand;
     private final int sides;

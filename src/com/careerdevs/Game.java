@@ -63,14 +63,14 @@ public class Game {
     public void printActiveDice(ArrayList<Die> activeArray){
         String activeDice = "Active Dice: ";
         for (int i = 0; i < activeArray.size(); i++) {
-            activeDice = activeDice.concat((i+1) + ": ").concat("[" + activeArray.get(i).value + "], ");
+            activeDice = activeDice.concat((i+1) + ": ").concat("[" + activeArray.get(i).getValue() + "], ");
         }
         System.out.println(activeDice);
     }
     public void printHeldDice(ArrayList<Die> heldArray){
         String heldDice = "Held Dice: ";
         for (int i = 0; i < heldArray.size(); i++) {
-            heldDice = heldDice.concat((i+1) + ": ").concat("[" + heldArray.get(i).value + "], ");
+            heldDice = heldDice.concat((i+1) + ": ").concat("[" + heldArray.get(i).getValue() + "], ");
         }
         System.out.println(heldDice);
     }

@@ -18,12 +18,15 @@ public class Hand {
         }
     }
 
-    public void holdDice(){
+    public void holdDice(Die die){
     }
 
-    private void resetDice(){ // Use private when using methods for specific classes (resetDice will only be called in this class)
+    public void resetDice(){ // Use private when using methods for specific classes (resetDice will only be called in this class)
         for (Die d : heldDice) {
             //d.reset();
         }
+    }
+
+    public void activateDice(Die die) {
     }
 }
