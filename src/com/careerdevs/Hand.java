@@ -14,11 +14,12 @@ public class Hand {
     public void rollDice(){
         // Takes function as param - higher order function
         for (Die d : activeDice) {
-            //d.roll();
+            d.roll();
         }
     }
 
     public void holdDice(Die die){
+
     }
 
     public void resetDice(){ // Use private when using methods for specific classes (resetDice will only be called in this class)
