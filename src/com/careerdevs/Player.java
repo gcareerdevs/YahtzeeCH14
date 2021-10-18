@@ -6,9 +6,9 @@ public class Player {
     public Scorecard scorecard;
     public Hand hand;
 
-    public Player(String name, Scorecard scorecard) {
+    public Player(String name) {
         this.name = name;
-        this.scorecard = scorecard;
+//        this.scorecard = scorecard;
     }
 
     public String getName() {
