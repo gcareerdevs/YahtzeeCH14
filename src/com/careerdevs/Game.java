@@ -54,13 +54,15 @@ public class Game {
                         CLI.createSeperator("-", 10);
                         printActiveDice(player.hand.activeDice);
                         System.out.println("Which die would you like to hold?");
-                        player.hand.holdDice(player.hand.activeDice.get(CLI.getNum(1, 6) - 1));
+                        input = CLI.getNum(1, player.hand.activeDice.size());
+                        player.hand.holdOrRerollDie(player.hand.activeDice, input, player.hand.heldDice);
                     }
                     case 2 -> {
                         CLI.createSeperator("-", 10);
                         printHeldDice(player.hand.heldDice);
                         System.out.println("Which die would you like to Activate?");
-                        player.hand.activateDice(player.hand.heldDice.get(CLI.getNum(1, 6) - 1));
+                        input = CLI.getNum(1, player.hand.heldDice.size());
+                        player.hand.holdOrRerollDie(player.hand.heldDice, input, player.hand.activeDice);
                     }
                     case 3 -> {
                         // if i is not equal to 2, do the following
