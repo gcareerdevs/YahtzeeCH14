@@ -8,5 +8,7 @@ public class Main {
     // once you want to commit, make sure to first cd to the YahtzeeCH14 directory,
         //then run the command git restore ./src/com/careerdevs/Main.java
         Menu.start();
+//        Game game = new Game(2);
+//        System.out.println(game);
     }
 }

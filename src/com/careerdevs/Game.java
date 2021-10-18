@@ -39,7 +39,7 @@ public class Game {
             int input;
             boolean menuActive = true;
             CLI.createSeperator("-", 15);
-            System.out.println("T U R N  " + (i + 1));
+            System.out.println("\nT U R N  " + (i + 1) + "\n");
             CLI.createSeperator("-", 15);
             while (menuActive) {
                 CLI.createSeperator("-", 15);
@@ -51,16 +51,16 @@ public class Game {
                 int answer = CLI.getNum(1, 4);
                 switch (answer) {
                     case 1 -> {
-                        CLI.createSeperator("-", 10);
+                        CLI.createSeperator("-", 15);
                         printActiveDice(player.hand.activeDice);
-                        System.out.println("Which die would you like to hold?");
+                        System.out.println("\nWhich die would you like to hold?");
                         input = CLI.getNum(1, player.hand.activeDice.size());
                         player.hand.holdOrRerollDie(player.hand.activeDice, input, player.hand.heldDice);
                     }
                     case 2 -> {
-                        CLI.createSeperator("-", 10);
+                        CLI.createSeperator("-", 15);
                         printHeldDice(player.hand.heldDice);
-                        System.out.println("Which die would you like to Activate?");
+                        System.out.println("\nWhich die would you like to Activate?");
                         input = CLI.getNum(1, player.hand.heldDice.size());
                         player.hand.holdOrRerollDie(player.hand.heldDice, input, player.hand.activeDice);
                     }
@@ -68,13 +68,14 @@ public class Game {
                         // if i is not equal to 2, do the following
                         if (i != 2) {
                             menuActive = false;
-                            CLI.createSeperator("-", 10);
+                            CLI.createSeperator("-", 15);
                             player.hand.rollDice();
                         } else {
-                            System.out.println("You can not re-roll, you must enter a score");
+                            System.out.println("\nYou can not re-roll, you must enter a score");
                         }
                     }
                     case 4 -> {
+                        menuActive = false;
                         Scorecard score = new Scorecard();
                         score.testScore();
                     }
