@@ -10,57 +10,75 @@ public class Game {
     private final byte NUM_TURNS = 3;
 
     public Game(int numPlayers) {
-
+        players = new ArrayList<>();
+        createPlayer(numPlayers);
+        startGame();
     }
 
-    public void createPlayer(int numPlayers) {
+    public void createPlayer(int numPlayers) { // Added createPlayer()
 
+        for (int i = 0; i < numPlayers; i++) {
+            String name = CLI.getString("Enter your name");
+            Player newPlayer = new Player(name);
+            players.add(newPlayer);
+            Hand hand = new Hand(createDice()); // Temporary
+            newPlayer.setHand(hand);
+        }
     }
 
-    public void playerTurn(Player player) {
-        CLI.createSeperator("-", 10);
-        System.out.println(player.name + "'s turn");
-        CLI.createSeperator("-", 10);
-        System.out.println("Rolling Initial Dice");
+
+    public void playerTurn(Player player) { // Tweaked playerTurn()
+        CLI.createSeperator("-", 15);
+        System.out.println(player.name + "'s Turn");
+        CLI.createSeperator("-", 15);
+        System.out.println("ROLLING INITIAL DICE");
         player.hand.resetDice();
         player.hand.rollDice();
 
         for (int i = 0; i < NUM_TURNS; i++) {
             int input;
             boolean menuActive = true;
-            System.out.println("Turn " + (i + 1));
+            CLI.createSeperator("-", 15);
+            System.out.println("T U R N  " + (i + 1));
+            CLI.createSeperator("-", 15);
             while (menuActive) {
-                CLI.createSeperator("-", 10);
+                CLI.createSeperator("-", 15);
                 printActiveDice(player.hand.activeDice);
                 printHeldDice(player.hand.heldDice);
-                String answer = CLI.getString("Would you like to hold or activate dice? (Input H to Hold, A to Activate, or R to Roll all Active Dice)");
-                switch (answer.toUpperCase()) {
-                    case "H":
+                CLI.createSeperator("-", 15);
+                System.out.println("What would you like to do?\n1) Hold dice\n2) Activate dice\n3) Roll\n4) Score");
+                CLI.createSeperator("-", 15);
+                int answer = CLI.getNum(1, 4);
+                switch (answer) {
+                    case 1 -> {
                         CLI.createSeperator("-", 10);
                         printActiveDice(player.hand.activeDice);
                         System.out.println("Which die would you like to hold?");
-                        input = CLI.getNum(1, player.hand.activeDice.size());
-                        player.hand.holdOrRerollDie(player.hand.activeDice, input, player.hand.heldDice);
-                        break;
-                    case "A":
+                        player.hand.holdDice(player.hand.activeDice.get(CLI.getNum(1, 6) - 1));
+                    }
+                    case 2 -> {
                         CLI.createSeperator("-", 10);
                         printHeldDice(player.hand.heldDice);
                         System.out.println("Which die would you like to Activate?");
-                        input = CLI.getNum(1, player.hand.heldDice.size());
-                        player.hand.holdOrRerollDie(player.hand.heldDice, input, player.hand.activeDice);
-                        break;
-                    case "R":
-                        menuActive = false;
-                        CLI.createSeperator("-", 10);
-                        player.hand.rollDice();
-                        break;
-                    default:
-                        break;
+                        player.hand.activateDice(player.hand.heldDice.get(CLI.getNum(1, 6) - 1));
+                    }
+                    case 3 -> {
+                        // if i is not equal to 2, do the following
+                        if (i != 2) {
+                            menuActive = false;
+                            CLI.createSeperator("-", 10);
+                            player.hand.rollDice();
+                        } else {
+                            System.out.println("You can not re-roll, you must enter a score");
+                        }
+                    }
+                    case 4 -> {
+                        Scorecard score = new Scorecard();
+                        score.testScore();
+                    }
                 }
             }
         }
-
-
     }
 
     public void printActiveDice(ArrayList<Die> activeArray) {
@@ -79,12 +97,25 @@ public class Game {
         System.out.println(heldDice);
     }
 
-    public void createDice() {
-
+    public ArrayList<Die> createDice() { // Added createDice()
+        ArrayList<Die> tempDice = new ArrayList<>();
+        for (int i = 0; i < NUM_DICE; i++) {
+            Die die = new Die();
+            tempDice.add(die);
+        }
+        return tempDice;
     }
 
-    public void startGame() {
+    public void startGame() { // Added startGame
 
+        for (int i = 0; i < NUM_ROUNDS; i++) {
+            CLI.createSeperator("-", 10);
+            System.out.println("R O U N D  " + (i + 1));
+            CLI.createSeperator("-", 10);
+            for (Player player : players) {
+                playerTurn(player);
+            }
+        }
     }
 
     public void endGame() {
@@ -94,6 +125,4 @@ public class Game {
     public void checkWinners() {
 
     }
-
-
 }
