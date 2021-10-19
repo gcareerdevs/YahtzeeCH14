@@ -86,7 +86,7 @@ public class CLI {
     public static String readEnter() /*Method allows the user to simply press the enter key to advance in that part of the program*/ {
         String input = "";
         while (true) {
-            System.out.print("Input: ");
+            System.out.print("Press Enter to Continue: ");
             input = scanner.nextLine();
             if (!input.equals("")) {
                 System.out.println("Please press enter to continue.");
