@@ -14,7 +14,6 @@ public class Scorecard {
             "Full House", "Yahtzee", "Chance"
     };
 
-//    private HashMap<String, Combo> lowerCard;
 
     public Scorecard() {
         grandTotal = 0;
