@@ -7,8 +7,8 @@ public class Scorecard {
     private int upperTotal;
     private int lowerTotal;
     private int bonus;
-    private HashMap<String, Combination> upperCard;
-    private HashMap<String, Combination> lowerCard;
+    private HashMap<String, Combo> upperCard;
+    private HashMap<String, Combo> lowerCard;
 
     public Scorecard() {
         grandTotal = 0;
@@ -19,9 +19,12 @@ public class Scorecard {
         lowerCard = new HashMap<>();
     }
 
-    class Combination {
-        public Combination() {
-
+    class Combo {
+        public int score;
+        public boolean isFilled;
+        public Combo() {
+            this.score = 0;
+            this.isFilled = false;
         }
     }
 
