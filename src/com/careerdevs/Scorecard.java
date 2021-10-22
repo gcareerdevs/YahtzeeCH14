@@ -7,8 +7,14 @@ public class Scorecard {
     private int upperTotal;
     private int lowerTotal;
     private int bonus;
-    private HashMap<String, Combo> upperCard;
-    private HashMap<String, Combo> lowerCard;
+    private HashMap<String, Combo> card;
+    private static final String[] COMBO_NAMES = {
+            "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes",
+            "Three of a Kind", "Four of a Kind", "Small Straight", "Large Straight",
+            "Full House", "Yahtzee", "Chance"
+    };
+
+//    private HashMap<String, Combo> lowerCard;
 
     public Scorecard() {
         grandTotal = 0;
@@ -24,48 +30,40 @@ public class Scorecard {
     class Combo {
         public int score;
         public boolean isFilled;
-        public Combo() {
+        public boolean isUpper;
+
+
+        public Combo(boolean isUpper) {
             this.score = 0;
             this.isFilled = false;
+            this.isUpper = isUpper;
         }
     }
 
-    private void initializeUpperCard() {
-        Combo combo1 = new Combo();
-        Combo combo2 = new Combo();
-        Combo combo3 = new Combo();
-        Combo combo4 = new Combo();
-        Combo combo5 = new Combo();
-        Combo combo6 = new Combo();
+    private void initializeCard() {
 
-
-        upperCard.put("Aces", combo1 );
-        upperCard.put("Twos", combo2);
-        upperCard.put("Threes", combo3);
-        upperCard.put("Fours", combo4);
-        upperCard.put("Fives", combo5);
-        upperCard.put("Sixes", combo6);
+        for (int i = 0; i < COMBO_NAMES.length ; i++) {
+            if (i < 6) {
+                card.put(COMBO_NAMES[i], new Combo(true));
+            } else {
+                card.put(COMBO_NAMES[i], new Combo(false));
+            }
+        }
     }
 
-    private void initializeLowerCard() {
-        Combo combo1 = new Combo();
-        Combo combo2 = new Combo();
-        Combo combo3 = new Combo();
-        Combo combo4 = new Combo();
-        Combo combo5 = new Combo();
-        Combo combo6 = new Combo();
-        Combo combo7 = new Combo();
+    private HashMap<String, Combo> findAvailableCombos() {
+        HashMap<String, Combo> availableCombos = new HashMap<>();
+        //separates the fillable from the unfillable combinations
+        for (String s : card.keySet()) {
+            if (!card.get(s).isFilled) {
+                availableCombos.put(s, card.get(s));
+            }
+        }
+
+        return availableCombos;
 
 
-        upperCard.put("Three of a Kind", combo1 );
-        upperCard.put("Four of a Kind", combo2);
-        upperCard.put("Small Straight", combo3);
-        upperCard.put("Large Straight", combo4);
-        upperCard.put("Full House", combo5);
-        upperCard.put("Yahtzee", combo6);
-        upperCard.put("Chance", combo7);
     }
-
     public void testScore() {
         System.out.println("Scoring");
     }
