@@ -1,6 +1,6 @@
 package com.careerdevs;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Scorecard {
@@ -8,6 +8,7 @@ public class Scorecard {
     private int upperTotal;
     private int lowerTotal;
     private int bonus;
+    private ArrayList<Integer> currentDiceValues;
     private final int MAX_SCORE_NAME_LENGTH = 17;
     private HashMap<String, Combo> card;
     private enum ComboKey {
@@ -66,9 +67,22 @@ public class Scorecard {
             this.isUpper = isUpper;
         }
 
+        public void setScore(int value) {
+            if (!isFilled) {
+                score = value;
+            } else {
+                System.out.println("\n".repeat(3) + "ERROR: UNAUTHORIZED SCORE CHANGE" + "\n".repeat(3));
+            }
+        }
+
+        public int getScore() {
+            return score;
+        }
+
         public String getName() {
             return name;
         }
+
         @Override
         public String toString() {
             String scoreSpacer = (" ".repeat(MAX_SCORE_NAME_LENGTH - name.length()));
@@ -84,27 +98,83 @@ public class Scorecard {
                 card.put(key.toString(), new Combo(key.getName(),false));
             }
         }
+    }
 
-        /*for (int i = 0; i < ComboName.values().length; i++) {
-            if (i < 6) {
-                card.put(ComboName.values()[i].toString(), new Combo(true));
-            } else {
-                card.put(ComboName.values()[i].toString(), new Combo(false));
+    public int calculateTotalScore() {
+
+        return 0;
+    }
+
+    public HashMap<String, Combo> scoreRoll(ArrayList<Integer> dice) {
+        HashMap<String, Combo> availableCombos = findAvailableCombos();
+        currentDiceValues = dice;
+        scoreAvailableCombos(availableCombos);
+        return availableCombos;
+
+    }
+
+    private void scoreAvailableCombos(HashMap<String, Combo> availableCombos) {
+        //In each method, assign the particular combo with your calculated score.
+            //ex. calculating aces, got a score of 3
+                // card.get("ACE").setScore(3);
+        Object[] scoreCardKeys = card.keySet().toArray();
+        for (int i = 0; i < scoreCardKeys.length ; i++) {
+            String key = (String) scoreCardKeys[i];
+            if (availableCombos.get(key) != null) {
+                if (i < 6) {
+                    scoreUpper(i);
+                } else if (i < 8) {
+                    scoreOfAKind(i == 6);
+                } else if (i < 10) {
+                    scoreStraight(i == 8);
+                } else if (i == 11) {
+                    scoreFullHouse();
+                } else if (i == 12) {
+                    scoreYahtzee();
+                } else {
+                    scoreChance();
+                }
             }
-        }*/
+        }
     }
 
     private HashMap<String, Combo> findAvailableCombos() {
         HashMap<String, Combo> availableCombos = new HashMap<>();
-        //separates the fillable from the unfillable combinations
-        for (String s : card.keySet()) {
-            if (!card.get(s).isFilled) {
-                availableCombos.put(s, card.get(s));
+        //separates the filled from the unfilled combinations
+        for (String comboKey : card.keySet()) {
+            Combo combo = card.get(comboKey);
+            if (!combo.isFilled) {
+                //Resetting scores to 0 before executing scoring logic
+                combo.setScore(0);
+                availableCombos.put(comboKey, combo);
             }
         }
-
         return availableCombos;
+    }
 
+    private void scoreUpper(int comboCheck) {
+        // comboCheck will be a value from 0 (checking for Aces) to 5 (checking for Sixes)
+    }
+
+    private void scoreFullHouse() {
+
+    }
+
+    private void scoreOfAKind(boolean isThreeOfAKind) {
+        //If isThreeOfAKind == false, assign the score for Four of A Kind
+        //If the of-a-kind can't be made, do nothing
+    }
+
+    private void scoreStraight(boolean isSmallStraight) {
+        //If isSmallStraight == false, assign the score for large straight
+        //If the straight can't be made, do nothing
+    }
+
+    private void scoreYahtzee() {
+
+    }
+
+    private void scoreChance() {
 
     }
 
@@ -115,9 +185,7 @@ public class Scorecard {
         for (ComboKey c : ComboKey.values()) {
             output += (card.get(c.toString())) + "\n";
         }
-        /*for (int i = 0; i < card.size(); i++) {
-            output += card.values();
-        }*/
+
         return output;
     }
     public void testScore() {
