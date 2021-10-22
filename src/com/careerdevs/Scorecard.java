@@ -21,10 +21,7 @@ public class Scorecard {
         upperTotal = 0;
         lowerTotal = 0;
         bonus = 0;
-        upperCard = new HashMap<>();
-        lowerCard = new HashMap<>();
-        initializeUpperCard();
-        initializeLowerCard();
+        initializeCard();
     }
 
     class Combo {
