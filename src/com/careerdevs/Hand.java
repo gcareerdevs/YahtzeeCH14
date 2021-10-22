@@ -32,4 +32,8 @@ public class Hand {
 
     public void activateDice(Die die) {
     }
+
+    public ArrayList<Integer> getDiceValues() {
+        return new ArrayList<Integer>();
+    }
 }

@@ -1,6 +1,7 @@
 package com.careerdevs;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Game {
     private ArrayList<Player> players;
@@ -76,8 +77,10 @@ public class Game {
                     }
                     case 4 -> {
                         menuActive = false;
-                        Scorecard score = new Scorecard();
-                        score.testScore();
+                        ArrayList<Integer> currentRoll = player.hand.getDiceValues();
+                        HashMap<String, Scorecard.Combo> availableCombos = player.scorecard.scoreRoll(currentRoll);
+                        Menu.selectCombo(availableCombos);
+
                     }
                 }
             }

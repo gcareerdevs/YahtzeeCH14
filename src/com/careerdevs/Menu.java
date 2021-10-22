@@ -1,5 +1,7 @@
 package com.careerdevs;
 
+import java.util.HashMap;
+
 public class Menu {
 
     public static String welcome_msg = "Hello and welcome to Yahtzee! Lets get started!";
@@ -29,7 +31,7 @@ public class Menu {
             System.out.println("(1) Start Game\n(2) Display Rules \n(3) Exit");
             int choice = CLI.getNum(1, 3);
             if (choice == 1) {
-                System.out.println("\nGreat, How many people will me playing?");
+                System.out.println("\nGreat, How many people will be playing?");
                 System.out.print("\nNumber of Players: ");
                 numPlayers = CLI.getNum(2, 10);
                 System.out.println("\nOkay so now lets start the game.");
@@ -41,5 +43,9 @@ public class Menu {
                 CLI.exit();
             }
         }
+    }
+
+    public static void selectCombo(HashMap<String, Scorecard.Combo> availableCombos) {
+        //Display the combos, allow user to see 0 score combos, allow user to lock in a selection.
     }
 }
