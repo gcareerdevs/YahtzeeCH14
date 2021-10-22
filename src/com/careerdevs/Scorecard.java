@@ -20,6 +20,7 @@ public class Scorecard {
         upperTotal = 0;
         lowerTotal = 0;
         bonus = 0;
+        card = new HashMap<>();
         initializeCard();
     }
 
