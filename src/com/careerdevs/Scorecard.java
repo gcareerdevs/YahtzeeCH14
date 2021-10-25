@@ -100,9 +100,13 @@ public class Scorecard {
         }
     }
 
-    public int calculateTotalScore() {
 
-        return 0;
+    public void calculateTotalScore() {
+        Object[] scoreCardKeys = card.keySet().toArray();
+        for (int i = 0; i < scoreCardKeys.length ; i++) {
+            String key = (String) scoreCardKeys[i];
+            grandTotal += card.get(key).score;
+        }
     }
 
     public HashMap<String, Combo> scoreRoll(ArrayList<Integer> dice) {
@@ -171,11 +175,23 @@ public class Scorecard {
     }
 
     private void scoreYahtzee() {
-
+        int counter = 0;
+        for (int i = 0; i < currentDiceValues.size(); i++) {
+            if (currentDiceValues.get(0) == currentDiceValues.get(i)) {
+                counter++;
+            }
+        }
+        if (counter == 5){
+            if (!card.get("YHTZE").isFilled){
+                card.get("YHTZE").score = 50;
+            } else {
+                bonus += 100;
+                //jokerRules();
+            }
+        }
     }
 
     private void scoreChance() {
-
     }
 
     @Override
