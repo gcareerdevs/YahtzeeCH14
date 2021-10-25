@@ -8,6 +8,7 @@ public class Scorecard {
     private int upperTotal;
     private int lowerTotal;
     private int bonus;
+    private final int MAX_BONUS_POINTS = 35;
     private ArrayList<Integer> currentDiceValues;
     private final int MAX_SCORE_NAME_LENGTH = 17;
     private HashMap<String, Combo> card;
@@ -192,7 +193,29 @@ public class Scorecard {
     }
 
     private void scoreChance() {
+        int sumOfDice = 0;
+        for (Integer i : currentDiceValues) {
+            sumOfDice += i;
+        }
+
+        card.get("CHNC").setScore(sumOfDice);
     }
+
+    private void checkForBonus() {
+        if (upperTotal >= 63) {
+            setBonus(MAX_BONUS_POINTS);
+        }
+    }
+
+    private ArrayList<Integer> getCurrentDiceValues() {
+        return currentDiceValues;
+    }
+
+    private int getUpperTotal() {
+        return upperTotal;
+    }
+
+    private void setBonus(int points) { bonus = points; }
 
     @Override
     public String toString() {
