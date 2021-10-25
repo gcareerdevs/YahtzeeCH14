@@ -195,6 +195,32 @@ public class Scorecard {
     }
 
     private void jokerRules(){
+        HashMap<String, Combo> availableCombos = findAvailableCombos();
+        Object[] scoreCardKeys = card.keySet().toArray();
+        for (int i = 0; i < scoreCardKeys.length ; i++) {
+            String key = (String) scoreCardKeys[i];
+            if (availableCombos.get(key) != null) {
+                if (i < 6) {
+                    scoreUpper(i);
+                } else if (i < 8) {
+                    scoreOfAKind(i == 6);
+                } else if (i < 10) {
+                    if(i == 8){
+                        //Small - 30
+                        card.get("SMSTR").score = 30;
+                    }
+                    else{
+                        //Large Straight - 40
+                        card.get("LRGSTR").score = 40;
+                    }
+                } else if (i == 11) {
+                    //Full House - 25
+                    card.get("FLLHSE").score = 40;
+                } else if (i == 12) {
+                    scoreChance();
+                }
+            }
+        }
 
     }
 
