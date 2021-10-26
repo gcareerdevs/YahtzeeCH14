@@ -12,9 +12,11 @@ public class Scorecard {
     private int lowerTotal;
     private int bonus;
     private final int MAX_BONUS_POINTS = 35;
-    private ArrayList<Integer> currentDiceValues;
+    //TODO: Make private after testing
+    public ArrayList<Integer> currentDiceValues;
     private final int MAX_SCORE_NAME_LENGTH = 17;
-    private HashMap<String, Combo> card;
+    //TODO: Make private after testing
+    public HashMap<String, Combo> card;
 
     private enum ComboKey {
         ACE("Aces"),
@@ -365,6 +367,57 @@ public class Scorecard {
     public ArrayList<Integer> getCurrentDiceValues() {
         return currentDiceValues;
     }
+
+    //TODO: Delete main() when testing complete
+    public static void main(String[] args) {
+        Scorecard card = new Scorecard();
+        System.out.println(card.toString());
+        ArrayList<Integer> testDice = new ArrayList<>();
+        testDice.add(1);
+        testDice.add(1);
+        testDice.add(1);
+        testDice.add(1);
+        testDice.add(1);
+
+        card.currentDiceValues = testDice;
+        System.out.println(testDice);
+        card.scoreUpper(0);
+        card.scoreUpper(1);
+        card.scoreYahtzee();
+        card.scoreOfAKind(true);
+        card.scoreOfAKind(false);
+        card.scoreChance();
+        card.scoreFullHouse();
+        /*card.scoreStraight(true);
+        card.scoreStraight(false);*/
+
+        System.out.println("Test for Ones: " + card.card.get("ACE").getScore());
+        System.out.println("Test for Twos: " + card.card.get("TWO").getScore());
+
+
+        System.out.println("Test for Three of a Kind: " + card.card.get("TOAK").getScore());
+        System.out.println("Test for Four of a Kind: " + card.card.get("FOAK").getScore());
+
+        /*System.out.println("Test for Small Straight: " + card.card.get("SMSTR").getScore());
+        System.out.println("Test for Large Straight: " + card.card.get("LRGESTR").getScore());*/
+
+        System.out.println("Test for Yahtzee: " + card.card.get("YHTZE").getScore());
+        System.out.println("Test for Chance: " + card.card.get("CHNC").getScore());
+
+        testDice.clear();
+        System.out.println(testDice);
+
+        testDice.add(4);
+        testDice.add(4);
+        testDice.add(5);
+        testDice.add(5);
+        testDice.add(5);
+
+        System.out.println(testDice);
+        System.out.println("Test for Full House: " + card.card.get("FLLHSE").getScore());
+
+    }
+
 }
 
 
