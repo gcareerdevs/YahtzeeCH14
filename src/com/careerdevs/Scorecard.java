@@ -88,6 +88,10 @@ public class Scorecard {
             return name;
         }
 
+        public void lockSelection(){
+            isFilled = true;
+        }
+
         @Override
         public String toString() {
             String scoreSpacer = (" ".repeat(MAX_SCORE_NAME_LENGTH - name.length()));
