@@ -226,7 +226,7 @@ public class Scorecard {
         int countOfOnes = Collections.frequency(currentDiceValues, 1);
         int countOfTwos = Collections.frequency(currentDiceValues, 2);
         int countOfThrees = Collections.frequency(currentDiceValues, 3);
-        int countOfFours = Collections.frequency(currentDiceValues, 4);
+        int countOfFours = Collections.frequency(currentDiceValues, 4);++
         int countOfFives = Collections.frequency(currentDiceValues, 5);
         int countOfSixes = Collections.frequency(currentDiceValues, 6);
 
@@ -318,7 +318,7 @@ public class Scorecard {
                 card.get("YHTZE").score = 50;
             } else {
                 bonus += 100;
-                //jokerRules();
+                jokerRules();
             }
         }
     }
