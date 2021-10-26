@@ -15,27 +15,28 @@ public class Scorecard {
     private ArrayList<Integer> currentDiceValues;
     private final int MAX_SCORE_NAME_LENGTH = 17;
     private HashMap<String, Combo> card;
+
     private enum ComboKey {
-        ACE ("Aces"),
-        TWO ("Twos"),
-        THREE ("Threes"),
-        FOUR ("Fours"),
-        FIVE ("Fives"),
-        SIX ("Sixes"),
-        TOAK ("Three of a Kind"),
-        FOAK ("Four of a Kind"),
-        SMSTR ("Small Straight"),
-        LRGSTR ("Large Straight"),
-        FLLHSE ("Full House"),
-        YHTZE ("Yahtzee"),
-        CHNC ("Chance");
+        ACE("Aces"),
+        TWO("Twos"),
+        THREE("Threes"),
+        FOUR("Fours"),
+        FIVE("Fives"),
+        SIX("Sixes"),
+        TOAK("Three of a Kind"),
+        FOAK("Four of a Kind"),
+        SMSTR("Small Straight"),
+        LRGSTR("Large Straight"),
+        FLLHSE("Full House"),
+        YHTZE("Yahtzee"),
+        CHNC("Chance");
 
         private String enumName;
 
         ComboKey(String name) {
             enumName = name;
         }
-        
+
         private String getName() {
             return enumName;
         }
@@ -97,9 +98,9 @@ public class Scorecard {
     private void initializeCard() {
         for (ComboKey key : ComboKey.values()) {
             if (key.ordinal() < 6) {
-                card.put(key.toString(), new Combo(key.getName(),true));
+                card.put(key.toString(), new Combo(key.getName(), true));
             } else {
-                card.put(key.toString(), new Combo(key.getName(),false));
+                card.put(key.toString(), new Combo(key.getName(), false));
             }
         }
     }
@@ -118,15 +119,14 @@ public class Scorecard {
         currentDiceValues = dice;
         scoreAvailableCombos(availableCombos);
         return availableCombos;
-
     }
 
     private void scoreAvailableCombos(HashMap<String, Combo> availableCombos) {
         //In each method, assign the particular combo with your calculated score.
-            //ex. calculating aces, got a score of 3
-                // card.get("ACE").setScore(3);
+        //ex. calculating aces, got a score of 3
+        // card.get("ACE").setScore(3);
         Object[] scoreCardKeys = card.keySet().toArray();
-        for (int i = 0; i < scoreCardKeys.length ; i++) {
+        for (int i = 0; i < scoreCardKeys.length; i++) {
             String key = (String) scoreCardKeys[i];
             if (availableCombos.get(key) != null) {
                 if (i < 6) {
@@ -221,7 +221,30 @@ public class Scorecard {
 
     private void scoreOfAKind(boolean isThreeOfAKind) {
         //If isThreeOfAKind == false, assign the score for Four of A Kind
-        //If the of-a-kind can't be made, do nothing
+        //If the three-of-a-kind can't be made, do nothing
+        int threeOfAKind = 3, fourOfAKind = 4, points = 0;
+        int countOfOnes = Collections.frequency(currentDiceValues, 1);
+        int countOfTwos = Collections.frequency(currentDiceValues, 2);
+        int countOfThrees = Collections.frequency(currentDiceValues, 3);
+        int countOfFours = Collections.frequency(currentDiceValues, 4);
+        int countOfFives = Collections.frequency(currentDiceValues, 5);
+        int countOfSixes = Collections.frequency(currentDiceValues, 6);
+
+        for (Integer n : currentDiceValues) {
+            points += n;
+        }
+
+        for (int i = 0; i < currentDiceValues.size(); i++) {
+            if (countOfOnes == threeOfAKind || countOfTwos == threeOfAKind || countOfThrees == threeOfAKind ||
+                    countOfFours == threeOfAKind || countOfFives == threeOfAKind || countOfSixes == threeOfAKind && isThreeOfAKind) {
+                isThreeOfAKind = true;
+                card.get("TOAK").setScore(points);
+            } else if (countOfOnes == fourOfAKind || countOfTwos == fourOfAKind || countOfThrees == fourOfAKind ||
+                    countOfFours == fourOfAKind || countOfFives == fourOfAKind || countOfSixes == fourOfAKind) {
+                isThreeOfAKind = false;
+                card.get("FOAK").setScore(points);
+            }
+        }
     }
 
     private void scoreStraight(boolean isSmallStraight) {
@@ -316,10 +339,6 @@ public class Scorecard {
         }
     }
 
-    private ArrayList<Integer> getCurrentDiceValues() {
-        return currentDiceValues;
-    }
-
     private int getUpperTotal() {
         return upperTotal;
     }
@@ -336,7 +355,14 @@ public class Scorecard {
 
         return output;
     }
+
     public void testScore() {
         System.out.println("Scoring");
     }
+
+    public ArrayList<Integer> getCurrentDiceValues() {
+        return currentDiceValues;
+    }
 }
+
+
