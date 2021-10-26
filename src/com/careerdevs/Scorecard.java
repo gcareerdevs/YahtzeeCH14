@@ -1,12 +1,17 @@
 package com.careerdevs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Scorecard {
     private int grandTotal;
     private int upperTotal;
     private int lowerTotal;
     private int bonus;
+    private final int MAX_BONUS_POINTS = 35;
     private ArrayList<Integer> currentDiceValues;
     private final int MAX_SCORE_NAME_LENGTH = 17;
     private HashMap<String, Combo> card;
@@ -35,7 +40,7 @@ public class Scorecard {
             return enumName;
         }
 
-    };
+    }
 
     /*private static final String[] COMBO_NAMES = {
             "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes",
@@ -99,9 +104,13 @@ public class Scorecard {
         }
     }
 
-    public int calculateTotalScore() {
 
-        return 0;
+    public void calculateTotalScore() {
+        Object[] scoreCardKeys = card.keySet().toArray();
+        for (int i = 0; i < scoreCardKeys.length ; i++) {
+            String key = (String) scoreCardKeys[i];
+            grandTotal += card.get(key).score;
+        }
     }
 
     public HashMap<String, Combo> scoreRoll(ArrayList<Integer> dice) {
@@ -174,6 +183,39 @@ public class Scorecard {
     }
 
     private void scoreFullHouse() {
+        HashMap<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
+
+        tempMap.put(1,0);
+        tempMap.put(2,0);
+        tempMap.put(3,0);
+        tempMap.put(4,0);
+        tempMap.put(5,0);
+        tempMap.put(6,0);
+
+        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
+            Integer face = entry.getKey();
+            Integer count = entry.getValue();
+
+            for (Integer currentDiceValue : currentDiceValues) {
+
+                if (Objects.equals(currentDiceValue, face)) {
+                    count++;
+                }
+            }
+        }
+
+        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
+            Integer face = entry.getKey();
+            Integer count = entry.getValue();
+
+            if (count == 2 || count == 3){
+                if (count == 2 || count == 3){
+                    card.get("FLLHSE").setScore(25);
+                }
+            }else card.get("FLLHSE").setScore(0);
+
+        }
+
 
     }
 
@@ -185,16 +227,104 @@ public class Scorecard {
     private void scoreStraight(boolean isSmallStraight) {
         //If isSmallStraight == false, assign the score for large straight
         //If the straight can't be made, do nothing
+
+        ArrayList<Integer> sortDice = currentDiceValues;
+        Collections.sort(sortDice);
+        int counter = 0;
+
+        for (int i = 0; i < sortDice.size(); i++) {
+            if(sortDice.get(i) == (sortDice.get(i+1) - 1)){
+                counter++;
+            }
+            else{
+                counter = 0;
+            }
+        }
+
+
+        if(counter == 3 && isSmallStraight){
+            card.get("SMSTR").score = 30;
+        }
+        else if(counter == 4 && !isSmallStraight){
+            card.get("LRGSTR").score = 40;
+        }
+
+
     }
 
-    private void scoreYahtzee() {
+    private void jokerRules(){
+        HashMap<String, Combo> availableCombos = findAvailableCombos();
+        Object[] scoreCardKeys = card.keySet().toArray();
+        for (int i = 0; i < scoreCardKeys.length ; i++) {
+            String key = (String) scoreCardKeys[i];
+            if (availableCombos.get(key) != null) {
+                if (i < 6) {
+                    scoreUpper(i);
+                } else if (i < 8) {
+                    scoreOfAKind(i == 6);
+                } else if (i < 10) {
+                    if(i == 8){
+                        //Small - 30
+                        card.get("SMSTR").score = 30;
+                    }
+                    else{
+                        //Large Straight - 40
+                        card.get("LRGSTR").score = 40;
+                    }
+                } else if (i == 11) {
+                    //Full House - 25
+                    card.get("FLLHSE").score = 40;
+                } else if (i == 12) {
+                    scoreChance();
+                }
+            }
+        }
 
+    }
+
+
+    private void scoreYahtzee() {
+        int counter = 0;
+        for (int i = 0; i < currentDiceValues.size(); i++) {
+            if (currentDiceValues.get(0) == currentDiceValues.get(i)) {
+                counter++;
+            }
+        }
+        if (counter == 5){
+            if (!card.get("YHTZE").isFilled){
+                card.get("YHTZE").score = 50;
+            } else {
+                bonus += 100;
+                //jokerRules();
+            }
+        }
     }
 
     private void scoreChance() {
+        int sumOfDice = 0;
+        for (Integer i : currentDiceValues) {
+            sumOfDice += i;
+        }
 
+        card.get("CHNC").setScore(sumOfDice);
     }
 
+
+    private void checkForBonus() {
+        if (upperTotal >= 63) {
+            setBonus(MAX_BONUS_POINTS);
+        }
+    }
+
+    private ArrayList<Integer> getCurrentDiceValues() {
+        return currentDiceValues;
+    }
+
+    private int getUpperTotal() {
+        return upperTotal;
+    }
+
+    private void setBonus(int points) { bonus = points; }
 
     @Override
     public String toString() {
