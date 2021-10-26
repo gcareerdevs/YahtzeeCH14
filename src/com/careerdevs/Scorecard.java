@@ -2,6 +2,8 @@ package com.careerdevs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Scorecard {
     private int grandTotal;
@@ -157,6 +159,39 @@ public class Scorecard {
     }
 
     private void scoreFullHouse() {
+        HashMap<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
+
+        tempMap.put(1,0);
+        tempMap.put(2,0);
+        tempMap.put(3,0);
+        tempMap.put(4,0);
+        tempMap.put(5,0);
+        tempMap.put(6,0);
+
+        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
+            Integer face = entry.getKey();
+            Integer count = entry.getValue();
+
+            for (Integer currentDiceValue : currentDiceValues) {
+
+                if (Objects.equals(currentDiceValue, face)) {
+                    count++;
+                }
+            }
+        }
+
+        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
+            Integer face = entry.getKey();
+            Integer count = entry.getValue();
+
+            if (count == 2 || count == 3){
+                if (count == 2 || count == 3){
+                    card.get("FLLHSE").setScore(25);
+                }
+            }else card.get("FLLHSE").setScore(0);
+
+        }
+
 
     }
 
