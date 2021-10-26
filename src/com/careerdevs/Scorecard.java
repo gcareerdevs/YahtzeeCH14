@@ -1,7 +1,6 @@
 package com.careerdevs;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Scorecard {
     private int grandTotal;
@@ -154,6 +153,24 @@ public class Scorecard {
 
     private void scoreUpper(int comboCheck) {
         // comboCheck will be a value from 0 (checking for Aces) to 5 (checking for Sixes)
+        int count = 0;
+
+        for (int side: currentDiceValues) { //Loops thru the Arraylist of dice posted by the player.
+            if (side == (comboCheck + 1)){ //If the value of the dice is equal to the argument comboCheck given when method fires...
+                count++; //adds to the count.
+            }
+        }
+
+        int total = (comboCheck + 1) * count; //Calculates total score for the algorithm.
+
+        for (ComboKey combo : ComboKey.values() //For each loop that loops through the enum ComboKey.
+             ) {
+            if (combo.ordinal() == comboCheck){ //Ordinal makes an array to iterate through and checks the argument of comboCheck for that iteration.
+                card.get(combo.toString()).setScore(total); //grabs that enum object and adds the total variable to the score field for that enum.
+                break;
+            }
+        }
+
     }
 
     private void scoreFullHouse() {
@@ -178,6 +195,7 @@ public class Scorecard {
 
     }
 
+
     @Override
     public String toString() {
         String output = "";
@@ -192,5 +210,3 @@ public class Scorecard {
         System.out.println("Scoring");
     }
 }
-
-
