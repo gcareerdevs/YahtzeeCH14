@@ -226,28 +226,26 @@ public class Scorecard {
     private void scoreOfAKind(boolean isThreeOfAKind) {
         //If isThreeOfAKind == false, assign the score for Four of A Kind
         //If the three-of-a-kind can't be made, do nothing
-        int threeOfAKind = 3, fourOfAKind = 4, points = 0;
-        int countOfOnes = Collections.frequency(currentDiceValues, 1);
-        int countOfTwos = Collections.frequency(currentDiceValues, 2);
-        int countOfThrees = Collections.frequency(currentDiceValues, 3);
-        int countOfFours = Collections.frequency(currentDiceValues, 4);
-        int countOfFives = Collections.frequency(currentDiceValues, 5);
-        int countOfSixes = Collections.frequency(currentDiceValues, 6);
+        int points = 0;
 
-        for (Integer n : currentDiceValues) {
-            points += n;
+        int countOnes = Collections.frequency(currentDiceValues, 1);
+        int countTwos = Collections.frequency(currentDiceValues, 2);
+        int countThrees = Collections.frequency(currentDiceValues, 3);
+        int countFours = Collections.frequency(currentDiceValues, 4);
+        int countFives = Collections.frequency(currentDiceValues, 5);
+        int countSixes = Collections.frequency(currentDiceValues, 6);
+
+        for (Integer diceValues : currentDiceValues) {
+            points += diceValues;
         }
 
         for (int i = 0; i < currentDiceValues.size(); i++) {
-            if (countOfOnes == threeOfAKind || countOfTwos == threeOfAKind || countOfThrees == threeOfAKind ||
-                    countOfFours == threeOfAKind || countOfFives == threeOfAKind || countOfSixes == threeOfAKind && isThreeOfAKind) {
-                isThreeOfAKind = true;
+
+            if (countOnes == 3 || countTwos == 3 || countThrees == 3 || countFours == 3 || countFives == 3 || countSixes == 3 && isThreeOfAKind)
                 card.get("TOAK").setScore(points);
-            } else if (countOfOnes == fourOfAKind || countOfTwos == fourOfAKind || countOfThrees == fourOfAKind ||
-                    countOfFours == fourOfAKind || countOfFives == fourOfAKind || countOfSixes == fourOfAKind) {
-                isThreeOfAKind = false;
+
+            if (countOnes == 4 || countTwos == 4 || countThrees == 4 || countFours == 4 || countFives == 4 || countSixes == 4 && !isThreeOfAKind)
                 card.get("FOAK").setScore(points);
-            }
         }
     }
 
