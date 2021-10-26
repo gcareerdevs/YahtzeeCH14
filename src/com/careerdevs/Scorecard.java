@@ -1,6 +1,7 @@
 package com.careerdevs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class Scorecard {
@@ -37,7 +38,7 @@ public class Scorecard {
             return enumName;
         }
 
-    };
+    }
 
     /*private static final String[] COMBO_NAMES = {
             "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes",
@@ -173,7 +174,61 @@ public class Scorecard {
     private void scoreStraight(boolean isSmallStraight) {
         //If isSmallStraight == false, assign the score for large straight
         //If the straight can't be made, do nothing
+
+        ArrayList<Integer> sortDice = currentDiceValues;
+        Collections.sort(sortDice);
+        int counter = 0;
+
+        for (int i = 0; i < sortDice.size(); i++) {
+            if(sortDice.get(i) == (sortDice.get(i+1) - 1)){
+                counter++;
+            }
+            else{
+                counter = 0;
+            }
+        }
+
+
+        if(counter == 3 && isSmallStraight){
+            card.get("SMSTR").score = 30;
+        }
+        else if(counter == 4 && !isSmallStraight){
+            card.get("LRGSTR").score = 40;
+        }
+
+
     }
+
+    private void jokerRules(){
+        HashMap<String, Combo> availableCombos = findAvailableCombos();
+        Object[] scoreCardKeys = card.keySet().toArray();
+        for (int i = 0; i < scoreCardKeys.length ; i++) {
+            String key = (String) scoreCardKeys[i];
+            if (availableCombos.get(key) != null) {
+                if (i < 6) {
+                    scoreUpper(i);
+                } else if (i < 8) {
+                    scoreOfAKind(i == 6);
+                } else if (i < 10) {
+                    if(i == 8){
+                        //Small - 30
+                        card.get("SMSTR").score = 30;
+                    }
+                    else{
+                        //Large Straight - 40
+                        card.get("LRGSTR").score = 40;
+                    }
+                } else if (i == 11) {
+                    //Full House - 25
+                    card.get("FLLHSE").score = 40;
+                } else if (i == 12) {
+                    scoreChance();
+                }
+            }
+        }
+
+    }
+
 
     private void scoreYahtzee() {
         int counter = 0;
