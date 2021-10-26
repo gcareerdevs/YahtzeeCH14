@@ -296,7 +296,7 @@ public class Scorecard {
                     }
                 } else if (i == 11) {
                     //Full House - 25
-                    card.get("FLLHSE").score = 40;
+                    card.get("FLLHSE").score = 25;
                 } else if (i == 12) {
                     scoreChance();
                 }
