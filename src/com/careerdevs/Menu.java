@@ -62,7 +62,7 @@ public class Menu {
         if (!allCombos) { //If they answer 'n'
             System.out.println("Ok! Select the combination you want to score.");
             int input = CLI.getNum(1, scoreCardKeys.length);
-            //takes input and calls the lockSelection() method to change the isFilled condition to true.
+            //TODO:takes input and calls the lockSelection() method to change the isFilled condition to true.
         } else { //If they answer 'y'
             for (int i = 0; i < scoreCardKeys.length; i++) { //Will print the entire list of combinations.
                 String key = (String) scoreCardKeys[i];
@@ -71,7 +71,7 @@ public class Menu {
                 }
                 System.out.println("Ok! Select the combination you want to score.");
                 int input = CLI.getNum(1, scoreCardKeys.length);
-                //takes input and calls the lockSelection() method to change the isFilled condition to true.
+                //TODO:takes input and calls the lockSelection() method to change the isFilled condition to true.
             }
 
 
