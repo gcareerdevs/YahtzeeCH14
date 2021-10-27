@@ -187,39 +187,29 @@ public class Scorecard {
     }
 
     private void scoreFullHouse() {
-        HashMap<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
 
-        tempMap.put(1, 0);
-        tempMap.put(2, 0);
-        tempMap.put(3, 0);
-        tempMap.put(4, 0);
-        tempMap.put(5, 0);
-        tempMap.put(6, 0);
+        boolean check3 = false;
+        boolean check2 = false;
 
-        for (Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
-            Integer face = entry.getKey();
-            Integer count = entry.getValue();
+        for (int one : currentDiceValues) {
+            int count = 0;
+            for (int two : currentDiceValues) {
+                if (one == two) {
 
-            for (Integer currentDiceValue : currentDiceValues) {
-
-                if (Objects.equals(currentDiceValue, face)) {
                     count++;
                 }
             }
+            if (count == 3) {
+                check3 = true;
+            }
+            if (count == 2) {
+                check2 = true;
+            }
         }
-
-        for (Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
-            Integer face = entry.getKey();
-            Integer count = entry.getValue();
-
-            if (count == 2 || count == 3) {
-                if (count == 2 || count == 3) {
-                    card.get("FLLHSE").setScore(25);
-                }
-            } else card.get("FLLHSE").setScore(0);
+        if (check3 && check2) {
+            card.get("FLLHSE").setScore(25);
 
         }
-
 
     }
 
