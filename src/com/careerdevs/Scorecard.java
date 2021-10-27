@@ -88,7 +88,7 @@ public class Scorecard {
             return name;
         }
 
-        public void lockSelection(){
+        public void lockSelection() {
             isFilled = true;
         }
 
@@ -112,7 +112,7 @@ public class Scorecard {
 
     public void calculateTotalScore() {
         Object[] scoreCardKeys = card.keySet().toArray();
-        for (int i = 0; i < scoreCardKeys.length ; i++) {
+        for (int i = 0; i < scoreCardKeys.length; i++) {
             String key = (String) scoreCardKeys[i];
             grandTotal += card.get(key).score;
         }
@@ -168,8 +168,8 @@ public class Scorecard {
         // comboCheck will be a value from 0 (checking for Aces) to 5 (checking for Sixes)
         int count = 0;
 
-        for (int side: currentDiceValues) { //Loops thru the Arraylist of dice posted by the player.
-            if (side == (comboCheck + 1)){ //If the value of the dice is equal to the argument comboCheck given when method fires...
+        for (int side : currentDiceValues) { //Loops thru the Arraylist of dice posted by the player.
+            if (side == (comboCheck + 1)) { //If the value of the dice is equal to the argument comboCheck given when method fires...
                 count++; //adds to the count.
             }
         }
@@ -177,8 +177,8 @@ public class Scorecard {
         int total = (comboCheck + 1) * count; //Calculates total score for the algorithm.
 
         for (ComboKey combo : ComboKey.values() //For each loop that loops through the enum ComboKey.
-             ) {
-            if (combo.ordinal() == comboCheck){ //Ordinal makes an array to iterate through and checks the argument of comboCheck for that iteration.
+        ) {
+            if (combo.ordinal() == comboCheck) { //Ordinal makes an array to iterate through and checks the argument of comboCheck for that iteration.
                 card.get(combo.toString()).setScore(total); //grabs that enum object and adds the total variable to the score field for that enum.
                 break;
             }
@@ -189,14 +189,14 @@ public class Scorecard {
     private void scoreFullHouse() {
         HashMap<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
 
-        tempMap.put(1,0);
-        tempMap.put(2,0);
-        tempMap.put(3,0);
-        tempMap.put(4,0);
-        tempMap.put(5,0);
-        tempMap.put(6,0);
+        tempMap.put(1, 0);
+        tempMap.put(2, 0);
+        tempMap.put(3, 0);
+        tempMap.put(4, 0);
+        tempMap.put(5, 0);
+        tempMap.put(6, 0);
 
-        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
             Integer face = entry.getKey();
             Integer count = entry.getValue();
 
@@ -208,15 +208,15 @@ public class Scorecard {
             }
         }
 
-        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
             Integer face = entry.getKey();
             Integer count = entry.getValue();
 
-            if (count == 2 || count == 3){
-                if (count == 2 || count == 3){
+            if (count == 2 || count == 3) {
+                if (count == 2 || count == 3) {
                     card.get("FLLHSE").setScore(25);
                 }
-            }else card.get("FLLHSE").setScore(0);
+            } else card.get("FLLHSE").setScore(0);
 
         }
 
@@ -226,26 +226,23 @@ public class Scorecard {
     private void scoreOfAKind(boolean isThreeOfAKind) {
         //If isThreeOfAKind == false, assign the score for Four of A Kind
         //If the three-of-a-kind can't be made, do nothing
-        int points = 0;
 
-        int countOnes = Collections.frequency(currentDiceValues, 1);
-        int countTwos = Collections.frequency(currentDiceValues, 2);
-        int countThrees = Collections.frequency(currentDiceValues, 3);
-        int countFours = Collections.frequency(currentDiceValues, 4);
-        int countFives = Collections.frequency(currentDiceValues, 5);
-        int countSixes = Collections.frequency(currentDiceValues, 6);
+        ArrayList<Integer> frequencyCounts = new ArrayList<>();
 
-        for (Integer diceValues : currentDiceValues) {
-            points += diceValues;
+        int points = currentDiceValues.stream().mapToInt(i -> i).sum();
+
+        for (int i = 0; i < 6; i++) {
+            frequencyCounts.add(Collections.frequency(currentDiceValues, i + 1));
         }
 
-        for (int i = 0; i < currentDiceValues.size(); i++) {
+        for (Integer frequencyCount : frequencyCounts) {
 
-            if (countOnes == 3 || countTwos == 3 || countThrees == 3 || countFours == 3 || countFives == 3 || countSixes == 3 && isThreeOfAKind)
+            if (frequencyCount >= 3 && isThreeOfAKind) {
                 card.get("TOAK").setScore(points);
 
-            if (countOnes == 4 || countTwos == 4 || countThrees == 4 || countFours == 4 || countFives == 4 || countSixes == 4 && !isThreeOfAKind)
+            } else if (frequencyCount >= 4) {
                 card.get("FOAK").setScore(points);
+            }
         }
     }
 
@@ -258,29 +255,27 @@ public class Scorecard {
         int counter = 0;
 
         for (int i = 0; i < sortDice.size(); i++) {
-            if(sortDice.get(i) == (sortDice.get(i+1) - 1)){
+            if (sortDice.get(i) == (sortDice.get(i + 1) - 1)) {
                 counter++;
-            }
-            else{
+            } else {
                 counter = 0;
             }
         }
 
 
-        if(counter == 3 && isSmallStraight){
+        if (counter == 3 && isSmallStraight) {
             card.get("SMSTR").score = 30;
-        }
-        else if(counter == 4 && !isSmallStraight){
+        } else if (counter == 4 && !isSmallStraight) {
             card.get("LRGSTR").score = 40;
         }
 
 
     }
 
-    private void jokerRules(){
+    private void jokerRules() {
         HashMap<String, Combo> availableCombos = findAvailableCombos();
         Object[] scoreCardKeys = card.keySet().toArray();
-        for (int i = 0; i < scoreCardKeys.length ; i++) {
+        for (int i = 0; i < scoreCardKeys.length; i++) {
             String key = (String) scoreCardKeys[i];
             if (availableCombos.get(key) != null) {
                 if (i < 6) {
@@ -288,11 +283,10 @@ public class Scorecard {
                 } else if (i < 8) {
                     scoreOfAKind(i == 6);
                 } else if (i < 10) {
-                    if(i == 8){
+                    if (i == 8) {
                         //Small - 30
                         card.get("SMSTR").score = 30;
-                    }
-                    else{
+                    } else {
                         //Large Straight - 40
                         card.get("LRGSTR").score = 40;
                     }
@@ -315,8 +309,8 @@ public class Scorecard {
                 counter++;
             }
         }
-        if (counter == 5){
-            if (!card.get("YHTZE").isFilled){
+        if (counter == 5) {
+            if (!card.get("YHTZE").isFilled) {
                 card.get("YHTZE").score = 50;
             } else {
                 bonus += 100;
@@ -345,7 +339,9 @@ public class Scorecard {
         return upperTotal;
     }
 
-    private void setBonus(int points) { bonus = points; }
+    private void setBonus(int points) {
+        bonus = points;
+    }
 
     @Override
     public String toString() {
