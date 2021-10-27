@@ -13,32 +13,35 @@ public class Scorecard {
     private ArrayList<Integer> currentDiceValues;
     private final int MAX_SCORE_NAME_LENGTH = 17;
     private HashMap<String, Combo> card;
+
     private enum ComboKey {
-        ACE ("Aces"),
-        TWO ("Twos"),
-        THREE ("Threes"),
-        FOUR ("Fours"),
-        FIVE ("Fives"),
-        SIX ("Sixes"),
-        TOAK ("Three of a Kind"),
-        FOAK ("Four of a Kind"),
-        SMSTR ("Small Straight"),
-        LRGSTR ("Large Straight"),
-        FLLHSE ("Full House"),
-        YHTZE ("Yahtzee"),
-        CHNC ("Chance");
+        ACE("Aces"),
+        TWO("Twos"),
+        THREE("Threes"),
+        FOUR("Fours"),
+        FIVE("Fives"),
+        SIX("Sixes"),
+        TOAK("Three of a Kind"),
+        FOAK("Four of a Kind"),
+        SMSTR("Small Straight"),
+        LRGSTR("Large Straight"),
+        FLLHSE("Full House"),
+        YHTZE("Yahtzee"),
+        CHNC("Chance");
 
         private String enumName;
 
         ComboKey(String name) {
             enumName = name;
         }
-        
+
         private String getName() {
             return enumName;
         }
 
-    };
+    }
+
+    ;
 
     /*private static final String[] COMBO_NAMES = {
             "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes",
@@ -95,9 +98,9 @@ public class Scorecard {
     private void initializeCard() {
         for (ComboKey key : ComboKey.values()) {
             if (key.ordinal() < 6) {
-                card.put(key.toString(), new Combo(key.getName(),true));
+                card.put(key.toString(), new Combo(key.getName(), true));
             } else {
-                card.put(key.toString(), new Combo(key.getName(),false));
+                card.put(key.toString(), new Combo(key.getName(), false));
             }
         }
     }
@@ -117,10 +120,10 @@ public class Scorecard {
 
     private void scoreAvailableCombos(HashMap<String, Combo> availableCombos) {
         //In each method, assign the particular combo with your calculated score.
-            //ex. calculating aces, got a score of 3
-                // card.get("ACE").setScore(3);
+        //ex. calculating aces, got a score of 3
+        // card.get("ACE").setScore(3);
         Object[] scoreCardKeys = card.keySet().toArray();
-        for (int i = 0; i < scoreCardKeys.length ; i++) {
+        for (int i = 0; i < scoreCardKeys.length; i++) {
             String key = (String) scoreCardKeys[i];
             if (availableCombos.get(key) != null) {
                 if (i < 6) {
@@ -159,39 +162,27 @@ public class Scorecard {
     }
 
     private void scoreFullHouse() {
-        HashMap<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
 
-        tempMap.put(1,0);
-        tempMap.put(2,0);
-        tempMap.put(3,0);
-        tempMap.put(4,0);
-        tempMap.put(5,0);
-        tempMap.put(6,0);
+        boolean check3 = false;
+        boolean check2 = false;
 
-        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
-            Integer face = entry.getKey();
-            Integer count = entry.getValue();
-
-            for (Integer currentDiceValue : currentDiceValues) {
-
-                if (Objects.equals(currentDiceValue, face)) {
+        for (int one : currentDiceValues) {
+            int count = 0;
+            for (int two : currentDiceValues) {
+                if (one == two) {
                     count++;
                 }
             }
+            if (count == 3) {
+                check3 = true;
+            }
+            if (count == 2) {
+                check2 = true;
+            }
         }
-
-        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
-            Integer face = entry.getKey();
-            Integer count = entry.getValue();
-
-            if (count == 2 || count == 3){
-                if (count == 2 || count == 3){
-                    card.get("FLLHSE").setScore(25);
-                }
-            }else card.get("FLLHSE").setScore(0);
-
+        if (check3 && check2) {
+            card.get("FLLHSE").setScore(25);
         }
-
 
     }
 
@@ -223,6 +214,7 @@ public class Scorecard {
 
         return output;
     }
+
     public void testScore() {
         System.out.println("Scoring");
     }
