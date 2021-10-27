@@ -361,6 +361,46 @@ public class Scorecard {
     public ArrayList<Integer> getCurrentDiceValues() {
         return currentDiceValues;
     }
+
+    //TODO: Delete main() when testing complete
+    public static void main(String[] args) {
+        Scorecard card = new Scorecard();
+        System.out.println(card.toString());
+        ArrayList<Integer> testDice = new ArrayList<>();
+
+        //ONLY CHANGE THESE VALUES TO TEST YOUR SCORING LOGIC
+        testDice.add(1);
+        testDice.add(1);
+        testDice.add(1);
+        testDice.add(1);
+        testDice.add(1);
+
+        card.currentDiceValues = testDice;
+        System.out.println(testDice);
+        card.scoreUpper(0);
+        card.scoreUpper(1);
+        card.scoreYahtzee();
+        card.scoreOfAKind(true);
+        card.scoreOfAKind(false);
+        card.scoreChance();
+        card.scoreFullHouse();
+        card.scoreStraight(true);
+        card.scoreStraight(false);
+
+        System.out.println("Test for Ones: " + card.card.get("ACE").getScore());
+        System.out.println("Test for Twos: " + card.card.get("TWO").getScore());
+
+
+        System.out.println("Test for Three of a Kind: " + card.card.get("TOAK").getScore());
+        System.out.println("Test for Four of a Kind: " + card.card.get("FOAK").getScore());
+        System.out.println("Test for Small Straight: " + card.card.get("SMSTR").getScore());
+        System.out.println("Test for Large Straight: " + card.card.get("LRGESTR").getScore());
+        System.out.println("Test for Yahtzee: " + card.card.get("YHTZE").getScore());
+        System.out.println("Test for Chance: " + card.card.get("CHNC").getScore());
+        System.out.println("Test for Full House: " + card.card.get("FLLHSE").getScore());
+
+    }
+
 }
 
 
