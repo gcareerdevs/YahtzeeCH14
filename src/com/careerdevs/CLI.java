@@ -64,6 +64,7 @@ public class CLI {
     }
 
     public static boolean yesOrNo(String statement) /*Method takes in the message we want to give the player and gives them the option of 'yes' or no' and returns a boolean*/ {
+        System.out.println(statement);
         while (true) {
             System.out.print("\nInput (y/n): ");
             String input = scanner.nextLine().toLowerCase().trim();

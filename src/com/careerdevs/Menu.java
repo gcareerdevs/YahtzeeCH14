@@ -50,31 +50,25 @@ public class Menu {
     public static void selectCombo(HashMap<String, Scorecard.Combo> availableCombos) {
         //Display the combos, allow user to see 0 score combos, allow user to lock in a selection.
 
-        Object[] scoreCardKeys = availableCombos.keySet().toArray();
+        Object[] scoreCardKeys = availableCombos.keySet().toArray(); //Converts the availableCombo HashMap into an Object Array that can be iterated through w/ index element pairs.
         for (int i = 0; i < scoreCardKeys.length; i++) { //Shows the player all of their combos that have a score greater 1
             String key = (String) scoreCardKeys[i];
             if (availableCombos.get(key) != null && availableCombos.get(key).getScore() >= 1) {
-                System.out.println((i + 1) + ") " + availableCombos.get(key).getName() + " can score a total of " + availableCombos.get(key).getScore() + " points.");
+                System.out.println((i + 1) + ") " + availableCombos.get(key).getName() + " - " + availableCombos.get(key).getScore());
             }
         }
 
-        boolean allCombos = CLI.yesOrNo("Do you want to see the combinations that would score 0?");
-        if (!allCombos) { //If they answer 'n'
-            System.out.println("Ok! Select the combination you want to score.");
-            int input = CLI.getNum(1, scoreCardKeys.length);
-            //TODO:takes input and calls the lockSelection() method to change the isFilled condition to true.
-        } else { //If they answer 'y'
+        boolean allCombos = CLI.yesOrNo("Do you also want to see the combinations that would score 0?");
+        if (allCombos) { //If they answer 'y'
             for (int i = 0; i < scoreCardKeys.length; i++) { //Will print the entire list of combinations.
                 String key = (String) scoreCardKeys[i];
                 if (availableCombos.get(key) != null) {
-                    System.out.println((i + 1) + ") " + availableCombos.get(key).getName() + " can score a total of " + availableCombos.get(key).getScore() + " points.");
+                    System.out.println((i + 1) + ") " + availableCombos.get(key).getName() + " - " + availableCombos.get(key).getScore());
                 }
-                System.out.println("Ok! Select the combination you want to score.");
-                int input = CLI.getNum(1, scoreCardKeys.length);
-                //TODO:takes input and calls the lockSelection() method to change the isFilled condition to true.
             }
-
-
         }
+        System.out.println("Ok! Select the combination you want to score.");
+        int input = CLI.getNum(1, scoreCardKeys.length);
+        availableCombos.get((String)scoreCardKeys[(input - 1)]).lockSelection(); //locks in selection of that score.
     }
 }
