@@ -17,37 +17,37 @@ public class Scorecard {
     private HashMap<String, Combo> card;
 
     private enum ComboKey {
-        ACE("Aces"),
-        TWO("Twos"),
-        THREE("Threes"),
-        FOUR("Fours"),
-        FIVE("Fives"),
-        SIX("Sixes"),
-        TOAK("Three of a Kind"),
-        FOAK("Four of a Kind"),
-        SMSTR("Small Straight"),
-        LRGSTR("Large Straight"),
-        FLLHSE("Full House"),
-        YHTZE("Yahtzee"),
-        CHNC("Chance");
+        ACE("Aces", 0),
+        TWO("Twos", 1),
+        THREE("Threes", 2),
+        FOUR("Fours", 3),
+        FIVE("Fives", 4),
+        SIX("Sixes", 5),
+        TOAK("Three of a Kind", 6),
+        FOAK("Four of a Kind", 7),
+        SMSTR("Small Straight", 8),
+        LRGSTR("Large Straight", 9),
+        FLLHSE("Full House", 10),
+        YHTZE("Yahtzee", 11),
+        CHNC("Chance", 12);
 
         private String enumName;
+        private int enumIndex;
 
-        ComboKey(String name) {
+        ComboKey(String name, int index) {
             enumName = name;
+            enumIndex = index;
         }
 
         private String getName() {
             return enumName;
         }
 
-    }
+        private int getIndex() {
+            return enumIndex;
+        }
 
-    /*private static final String[] COMBO_NAMES = {
-            "Aces", "Twos", "Threes", "Fours", "Fives", "Sixes",
-            "Three of a Kind", "Four of a Kind", "Small Straight", "Large Straight",
-            "Full House", "Yahtzee", "Chance"
-    };*/
+    }
 
 
     public Scorecard() {
@@ -129,25 +129,40 @@ public class Scorecard {
         //In each method, assign the particular combo with your calculated score.
         //ex. calculating aces, got a score of 3
         // card.get("ACE").setScore(3);
-        Object[] scoreCardKeys = card.keySet().toArray();
-        for (int i = 0; i < scoreCardKeys.length; i++) {
-            String key = (String) scoreCardKeys[i];
-            if (availableCombos.get(key) != null) {
-                if (i < 6) {
-                    scoreUpper(i);
-                } else if (i < 8) {
-                    scoreOfAKind(i == 6);
-                } else if (i < 10) {
-                    scoreStraight(i == 8);
-                } else if (i == 11) {
+        for (String key : availableCombos.keySet()) {
+            ComboKey k = ComboKey.valueOf(key);
+            switch (k) {
+                case ACE:
+                case TWO:
+                case THREE:
+                case FOUR:
+                case FIVE:
+                case SIX:
+                    scoreUpper(k.getIndex());
+                    break;
+                case TOAK:
+                case FOAK:
+                    scoreOfAKind(k == ComboKey.TOAK);
+                    break;
+                case SMSTR:
+                case LRGSTR:
+                    scoreStraight(k == ComboKey.SMSTR);
+                    break;
+                case FLLHSE:
                     scoreFullHouse();
-                } else if (i == 12) {
+                    break;
+                case YHTZE:
                     scoreYahtzee();
-                } else {
+                    break;
+                case CHNC:
                     scoreChance();
-                }
+                    break;
+                default:
+                    throw new RuntimeException("What have you done?!?! You have angered the Yahtzee gods.");
+
             }
         }
+
     }
 
     private HashMap<String, Combo> findAvailableCombos() {
@@ -189,35 +204,18 @@ public class Scorecard {
     private void scoreFullHouse() {
         HashMap<Integer, Integer> tempMap = new HashMap<Integer, Integer>();
 
-        tempMap.put(1,0);
-        tempMap.put(2,0);
-        tempMap.put(3,0);
-        tempMap.put(4,0);
-        tempMap.put(5,0);
-        tempMap.put(6,0);
-
-        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
-            Integer face = entry.getKey();
-            Integer count = entry.getValue();
-
-            for (Integer currentDiceValue : currentDiceValues) {
-
-                if (Objects.equals(currentDiceValue, face)) {
-                    count++;
-                }
-            }
+        for (Integer currentDiceValue : currentDiceValues) {
+            tempMap.put(currentDiceValue, tempMap.getOrDefault(currentDiceValue, 0) + 1);
         }
 
-        for(Map.Entry<Integer, Integer> entry : tempMap.entrySet()) {
-            Integer face = entry.getKey();
-            Integer count = entry.getValue();
+        for(Integer i : tempMap.values()) {
 
-            if (count == 2 || count == 3){
-                if (count == 2 || count == 3){
-                    card.get("FLLHSE").setScore(25);
-                }
-            }else card.get("FLLHSE").setScore(0);
-
+            if ((i == 2 || i == 3) && tempMap.size() == 2) {
+                card.get("FLLHSE").setScore(25);
+            } else {
+                card.get("FLLHSE").setScore(0);
+            }
+            break;
         }
 
 
@@ -259,7 +257,7 @@ public class Scorecard {
         Collections.sort(sortDice);
         int counter = 0;
 
-        for (int i = 0; i < sortDice.size(); i++) {
+        for (int i = 0; i < sortDice.size() - 1; i++) {
             if(sortDice.get(i) == (sortDice.get(i+1) - 1)){
                 counter++;
             }
@@ -366,6 +364,20 @@ public class Scorecard {
 
     public ArrayList<Integer> getCurrentDiceValues() {
         return currentDiceValues;
+    }
+
+    public static void main(String[] args) {
+        Scorecard card = new Scorecard();
+        ArrayList<Integer> dice = new ArrayList<Integer>();
+        dice.clear();
+        dice.add(5);
+        dice.add(5);
+        dice.add(1);
+        dice.add(1);
+        dice.add(1);
+
+        card.scoreRoll(dice);
+
     }
 }
 
